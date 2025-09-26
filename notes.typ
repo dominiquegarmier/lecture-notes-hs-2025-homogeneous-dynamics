@@ -256,10 +256,14 @@ $
 $
 and the metric
 $
-  d_X(Gamma g_1, Gamma g_2)
-  = inf {d_G (gamma_1 g_1, gamma_2 g_2) | gamma_1, gamma_2 in Gamma}
-  = inf {d_G (gamma g_1, g_2) | gamma in Gamma}.
+  d_X (Gamma g_1, Gamma g_2)
+  = inf_(gamma_1, gamma_2 in Gamma) d_G (gamma_1 g_1, gamma_2 g_2)
+  = inf_(gamma in Gamma) d_G (gamma g_1, g_2)
 $
+
+#exercise[
+  The topology induced by $d_X$ coincides with the quotient topology.
+]
 
 #exercise[
   Discrete subgroups are closed.
@@ -610,20 +614,20 @@ pigeonhole principle.
 
 $H < G$ also acts on $X = Gamma backslash G$. For any $x in X$ the orbit
 $
-  H dot x = x H isom H slash "Stab"_H(x) isom "Stab"_H(x) backslash H.
+  H dot x = x H isom H slash "Stab"_H (x) isom "Stab"_H(x) backslash H.
 $
 Recall that we defined $h dot x = x h^(-1)$ (so a left group
 action by right multiplication).
 
 #remark[Claim][
   $
-    "Stab"_H(x) --> x H
+    "Stab"_H (x) --> x H
   $
   is continuous.
 ]
 
 #proof[of Claim][
-  Suppose $Lambda = "Stab"_H(x) = H inter g^(-1) Gamma g$, with $x = Gamma g$.
+  Suppose $Lambda = "Stab"_H (x) = H inter g^(-1) Gamma g$, with $x = Gamma g$.
 
   #remark[
     $"Stab"_G(Gamma g) = g^(-1) Gamma g.$
@@ -690,12 +694,267 @@ action by right multiplication).
 #proposition[
   If $x H$ is a closed orbit then the map above from
   $
-    "Stab"_H(x) backslash H -> x H subset X = Gamma backslash G
+    "Stab"_H (x) backslash H -> x H subset X = Gamma backslash G
   $
   is a homeomorphism. In particular, the Haar measure on
-  $"Stab"_H(x) backslash H$ gives rise to a locally finite
+  $"Stab"_H (x) backslash H$ gives rise to a locally finite
   measure on $X$ (with support in $x H$).
+]<orbit-stab-homeo>
+
+#proposition[
+  Let $Gamma, H < G$ be closed subgroups for $g_0 in G$
+  TFAE:
+  1. $(Gamma g_0) H subset X = Gamma backslash G$ is closed
+
+  2. $Gamma g_0 H subset G$ is closed.
+
+  3. $Gamma dot (g_0 H) subset Y = G slash H$ is closed.
+
+  If $Gamma$ is discrete and these conditions hold, then the orbit
+  $Gamma (g_0 H) subset Y$ is also discrete.
 ]
 
+#proof[
+  We suppose $B = B H subset G$ that is invariant under right
+  $H$-multiplication and.
+
+  We claim $B$ is closed in $G$ if and only if
+  $
+    pi_Y (B) subset Y
+  $
+  is closed. This claim gives $2 <=> 3$ but also $1 <=> 3$
+  (by switching left to right).
+
+  The map $pi_Y: G -> G slash H$ is continous. Hence if $pi_Y(B)$ is closed
+  we have that $B = pi_Y^(-1) (pi_Y (B))$ is closed.
+
+  Assume now that $B$ is closed, take $b_n H -> g H$ for some $g H in Y$
+  by definition of the metric we can find $h_n in H$ such that
+  $
+    b_n h_n -> g
+  $
+  but then by closedness of $B$ we have $g in B$ and thus $g H in pi_Y(B)$
+  and we are done.
+
+  Lets now show the last part of the statment.
+
+  We suppose $Gamma$ is discrete and $Y_0 = Gamma (g_0 H) subset Y$ is closed.
+
+  Hence $Y_0$ is complete. We suppose for the purpose of a contradiction
+  that $Y_0$ is not discrete. Then there exists an accumulation point
+  $
+    eta (g_0 H) in Y_0
+  $
+  of $Y_0$. By translation on the left by $gamma eta^(-1)$ we have that
+  $Y_0$ is a perfect set.
+
+  So $Y_0 backslash {gamma (g_0 H)}$ is dense and by baire category
+  the intersection of such sets for all $gamma in Gamma$ is dense.
+  But that set is also empty. So we have a contradiction.
+]
+
+#proof[of @orbit-stab-homeo][
+  We suppose for $x_0 = Gamma g_0$ we have
+  $
+    x_0 h_n -> x_0 h.
+  $
+  By def of $d_X$ there exists $gamma_n in Gamma$ such that
+  $
+    gamma_n g_0 h_n -> g_0 h
+  $<star>
+  We apply $p_Y$ for $Y = G slash H$ and get
+  $
+    gamma_n g_0 H -> g_0 H in Y
+  $
+  so for $n$ large enough (by discreteness of $Gamma (g_0 H)$) we have
+  $
+    gamma_n g_0 H = g_0 H
+  $
+  equivalently we have
+  $
+    g_0^(-1) gamma_n g_0 in H inter g_0^(-1) Gamma g_0 = "Stab"_H (x_0).
+  $
+  by multiplying @star by $g_0^(-1)$ on the left we optain
+  $
+    g_0^(-1) gamma_n g_0 h_n -> h
+  $
+  applying the quotient map we get
+  $
+    "Stab"_H (x_0) h_n -> "Stab"_H (x_0) h.
+  $
+]
+
+== Lattices in $RR^d$
+
+#remark[Claim][
+  A lattice in $RR^d$ always has the form
+  $
+    Lambda = g ZZ^d
+  $
+  for $g in "GL"_d (RR)$. The covolume in this case is
+  $
+    |det(g)|.
+  $
+  $Lambda$ is called unimodular if $|det(g)| = 1$. Thus the space of
+  all unimodular lattices in $RR^d$ is given by
+  $
+    "X"_d = {g ZZ^d | g in "SL"_d (RR)} isom "SL"_d (RR) dot ZZ^d
+    isom "SL"_d (RR) slash "SL"_d (ZZ).
+  $
+]
+
+#theorem[Minkowski's First Theorem][
+  Let $Lambda subset RR^d$ be a lattice. Then there exists a non-zero
+  vector $v in Lambda$ of norm $lt.tilde_d root(d, "covol"(Lambda))$
+]
+
+#proof[
+  Let $r_d$ be such that $"vol" (B_(r_d)^(RR^d)) > 1$. Then consider
+  $
+    root(d, "covol"(Lambda)) B_(r_d)^(RR^d).
+  $
+  which has value bigger than $V = "covol"(Lambda)$. THen this set cannot
+  be injective. So there exists
+  $v_1, v_2 in root(d, "covol"(Lambda)) B_(r_d)^(RR^d)$
+  such that $v_1 - v_2 in Lambda backslash {0}$.
+  And
+  $
+    ||v_1 - v_2|| = ||lambda|| <= 2 r_d root(d, "covol"(Lambda)).
+  $
+]
+
+#theorem[Minkowski's Successive Minimas][
+  Let $Lambda subset RR^d$ be a lattice. We define for $k = 1, ..., d$ the
+  successive minimas
+  $
+    lambda_k (Lambda) = min {r | Lambda inter overline(B_r^(RR^d)) "contains"
+      k "linearly independent vectors"}.
+  $
+  Then
+  $
+    lambda_1 (Lambda) dots.c lambda_d (Lambda) tilde_d "covol"(Lambda).
+  $
+  Moreover, we define
+  $
+    alpha_k (Lambda) = min {"covol"_V (Lambda inter V):
+      V subset RR^d "linear subspace, dim V = k"}
+  $
+  then
+  $
+    alpha_k (Lambda) tilde_d lambda_1 (Lambda) dots.c lambda_k (Lambda).
+  $
+  for $k = 1, ..., d$.
+]
+
+#proof[
+  If $d = 1$, then $Lambda = Z v_1$, $"covol"(Lambda) = ||v_1|| = lambda_1 (Lambda)$.
+  Assume now that the claim holds for $d-1$.
+  Let $v_1 in Lambda backslash {0}$ of minimal norm $||v_1|| = lambda_1 (Lambda)$.
+  We define $W := (RR v_1)^perp, pi_W: RR^d -> W isom RR^(d-1)$ the orthogonal projection and $Lambda_W = pi_W(Lambda) subset W$.
+
+  Now we claim that $Lambda_W$ is discrete. In fact
+  $
+    lambda_1 (Lambda_W) >= sqrt(3) / 2 lambda_1 (Lambda).
+  $
+
+  #proof[of Claim][
+    Suppose $w in Lambda_W backslash {0}$ and has norm $<= sqrt(3) / 2 lambda_1 (Lambda)$.
+    We can now find $|t| <= 1/2$ such that
+    $
+      v = w + t v_1 in Lambda
+    $
+    but then we get that $||v|| < lambda_1 (Lambda)$ which is a contradiction.
+  ]
+
+  *Claim 2*:
+  $Lambda_W$ is a lattice and
+  $
+    "covol"(Lambda) = lambda_1 (Lambda) "covol"(Lambda_W).
+  $
+
+  #proof[of Claim 2][
+    Let $F_W$ be a f.d. for $Lambda_W$ in $W$. We define
+    $
+      F = [-1 / 2, 1 / 2) v_1 + F_W.
+    $
+    which is fundamental domain for $Lambda$ in $RR^d$.
+    This proves the claim.
+  ]
+
+  *Claim 3*:
+  $
+    lambda_k (Lambda_W) tilde_d lambda_(k+1) (Lambda)
+  $
+  for $k = 1, ..., d-1$.
+
+  #proof[of Claim 3][
+    Suppose $v_1, v_2, ..., v_(k+1) in Lambda$ are linearly independent with
+    norms $lambda_1(Lambda), ..., lambda_(k+1)(Lambda)$ respectively.
+    Then we apply
+    $pi_W$ and optain $w_2 = pi_W(v_2), ..., w_(k+1) = pi_W(v_(k+1))$
+    of norm $<= lambda_k (Lambda)$. These vectors are linearly indep
+    so we have
+    $
+      lambda_k (Lambda_W) <= lambda_(k+1) (Lambda).
+    $
+    which gives one direction. Suppose
+    $
+      w_2, ..., w_(k+1) in Lambda_W
+    $
+    and of norm $<= lambda_k (Lambda_W)$, to each of these we apply the
+    triangle argument from before
+    so we get
+    $
+      w_j = pi_W (v_j), j = 2, ..., k+1
+    $
+    with $v_j =  w_j + t_j v_1 in Lambda$ and $|t_j| <= 1/2$.
+    So we have
+    $
+      ||v_j|| <= lambda_k (Lambda_W) 1 / 2 lambda_1(Lambda)
+      lt.tilde lambda_k (Lambda_W) + lambda_1 (Lambda)
+      lt.tilde lambda_k (Lambda_W).
+    $
+
+    This shows that $v_1, v_2, ..., v_(k+1)$ are linearly independent and thus
+    $
+      lambda_(k+1) (Lambda) lt.tilde lambda_k (Lambda_W).
+    $
+  ]
+
+  By claim 2 we have
+  $
+    "covol"(Lambda) = lambda_1 (Lambda) "covol"(Lambda_W)
+    tilde_d lambda_1 (Lambda) lambda_1 (Lambda_W) dots.c lambda_(d-1) (Lambda_W)
+  $
+  by the inductive hypothesis. By claim 3 we have
+  $
+    lambda_1 (Lambda_W) dots.c lambda_(d-1) (Lambda_W)
+    tilde_d lambda_2 (Lambda) dots.c lambda_d (Lambda).
+  $
+  this proves the first part of the theorem.
+
+  It remains to prove
+  $
+    alpha_k (Lambda) tilde_d lambda_1 (Lambda) dots.c lambda_k (Lambda).
+  $
+  Let $v_1, ..., v_k in Lambda$ be linearly indepedent of norms
+  $lambda_1 (Lambda), ..., lambda_k (Lambda)$ respectively. Let $V$
+  be the span of these vectors. Then
+  $
+    alpha_k (Lambda) <= "covol"_V (Lambda inter V) <= "covol"_V (ZZ v_1 + ... + ZZ v_k) <= ||v_1|| dots.c ||v_k|| = lambda_1 dots.c lambda_k
+  $
+  Now let $V$ be an arbitrary subspace of dim $k$ in $RR^d$.
+  We apply the first statment of the thm to
+  $
+    Lambda inter V
+  $
+  inside $V$ this gives
+  $
+    "covol"_V (Lambda inter V) tilde_d
+    lambda_1 (Lambda inter V) dots.c lambda_k (Lambda inter V)
+    >= lambda_1 (Lambda) dots.c lambda_k (Lambda).
+  $
+  Since $V$ was arbitrary the claim follows.
+]
 
 #bibliography("bib.bib", full: true)
