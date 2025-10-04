@@ -458,7 +458,7 @@ Because of hte previous lemma this does not depend on the choice of $F$.
   In particular if $G$ has a lattice then $G$ is unimodular.
 ]
 
-Recall $mod: G times G -> RR^+$ is the modular character and is homomorphism, continous and satisfies
+Recall $mod: G times G -> RR^+$ is the modular character and is homomorphism, continuous and satisfies
 
 $
   m_G (B g) = mod(g) m_G (B).
@@ -725,7 +725,7 @@ action by right multiplication).
   is closed. This claim gives $2 <=> 3$ but also $1 <=> 3$
   (by switching left to right).
 
-  The map $pi_Y: G -> G slash H$ is continous. Hence if $pi_Y(B)$ is closed
+  The map $pi_Y: G -> G slash H$ is continuous. Hence if $pi_Y(B)$ is closed
   we have that $B = pi_Y^(-1) (pi_Y (B))$ is closed.
 
   Assume now that $B$ is closed, take $b_n H -> g H$ for some $g H in Y$
@@ -1170,14 +1170,283 @@ $
 ]
 
 #corollary[
-  If $t <= t_0 = sqrt(3) / 2$ and $s >= 1/2$ then $Sigma_(s,t)$ is surjective.
+  There exists $t_0$ such that $Sigma_(1/2,t)$ is surjective.
 ]
 
 #proof[
-  We applhy the cor. about the $ZZ$-basis and find that
+  We apply for $Lambda = g ZZ^d$ the cor. about the $ZZ$-basis and assume
+  wlog that
   $
-    norm(w_1) = lambda_1
+    g = (v_1, ..., v_d)
+  $
+  satisfying $star$ (see previous corollary about $ZZ$-basis). Applying
+  Gram-Schmidt to $v_1, ..., v_d$ we get
+  $
+    v_1' = 1 / a_1 v_1, quad a_1 = lambda_1 = ||v_1||, \
+    v_2' = 1 / a_2 (v_2 + u_(1 2) v_1), quad a_2 tilde lambda_2, \
+    ... \
+    v_d' = 1 / a_d (v_d + ...), quad a_d tilde lambda_d
+  $
+  We define
+  $
+    a = mat(a_1, ,;,dots.down,;,,a_d)
+  $
+  and we have $a_(i+1) / a_i tilde lambda_(i + 1) / lambda_i >= 1$. I.e.
+  there exists $t_0$ indep of $d$ such that $a in A_(t_0)$ (this is not
+  the full argument why this is true, but it is and can be verfied).
+
+  We have
+  $
+    g = k a u, quad a in A_(t_0)
+  $
+  now we need $u in U_(1/2)$, this is easy. For this we modify $g$
+  by a $u_ZZ in U inter "SL"_d (ZZ)$ on the right (if needed) to ensure
+  $u in U_(1 / 2)$, we do this in multiple steps...
+
+  $
+    (u u_ZZ)_(i, i+1) = u_(i,i+1) + (u_ZZ)_(i, i+1) in [-1 / 2, 1 / 2]
+  $
+  by chosing $u_ZZ$ correctly. After doing this the first off-diagonal has
+  the desired property $|u_(i, i+1)| <= 1/2$.
+  E.g. by induction we now assume that $(u_ZZ)_(i, i+1) = 0$ now we have
+  $
+    (u u_ZZ)_(i, i+2) = u_(i, i+2) + (u_ZZ)_(i, i+2) +
+    u_(i, i+1) (u_ZZ)_(i+1, i+2) \
+    = (u u_ZZ)_(i, i+2) = u_(i, i+2) + (u_ZZ)_(i, i+2)
+  $
+  so we can apply the same argument as before and thus we get the second
+  off-diagonal has the desired property. Repeat this and we get
+  $
+    u in U_(1 / 2).
   $
 ]
+
+#theorem[
+  $"SL"_d (ZZ)$ is a lattice in $"SL"_d (RR)$.
+]
+
+#lemma[
+  $m_("SL"_d (RR)) (Sigma_(s, t) < oo$ for all $s,t$.
+]
+
+#proof[
+  We clearly have $m_K (K) < oo$ (since $K$ is compact) and
+  $m_U (U_s) = oo$. It remains to show that
+  $
+    integral_(A_t) rho(a) dif m_A (a) < oo
+  $
+  We use the isomorphism
+  $
+    a in A mapsto (log (a_2 / a_1), ..., log (a_d / a_(d-1))) =
+    (y_1, ..., y_(d-1))in RR^(d-1)
+  $
+  by definition we have
+  $
+    rho(a) = product_(i < j) a_i / a_j =
+    product_(i < j) product_(k = i)^(j-1) a_k / a_(k+1) =
+    product_(k = 1)^(d-1) (a_k / a_(k+1))^(r_k)
+  $
+  since we have
+  $
+    a_i / a_j = a_i / a_(i+1) dots a_(j-1) / a_j
+    = product_(k = i)^(j-1) a_k / a_(k+1)
+  $
+  where $r_k = k(d-k) > 0$. In the linear coordinates $A_t$ corresponds to
+  $
+    [log_t, oo)^(d-1) subset RR^(d-1).
+  $
+  Moreover
+  $
+    rho(a) = product_(k = 1)^(d-1) e^(-r_k y_k)
+  $
+  which gives the result (as integrating this over $A_t$ is finite).
+]
+
+== Siegel Transform
+
+Given $f in C_c (RR^d)$ we define the siegel transform by
+
+$
+  tilde(f) (Lambda) = sum_(v in Lambda backslash {0}) f(v)
+$
+for $Lambda in X_d$.
+
+#theorem[Siegel][
+  $
+    1 / (m_(X_d)(X_d)) integral_(X_d) tilde(f) dif m_(X_d) =
+    integral_(RR^d) f dif m_(RR^d).
+  $
+]<siegel>
+
+#remark[
+  $tilde(f)$ is in general not compactly supported and not even bounded.
+]
+
+#lemma[Upper Bound][
+  Let $"supp" f subset B_r (0)$
+  $
+    |tilde(f)| lt.tilde max_(k = 1,...,d) r^k / (lambda_1 dots.c lambda_k)
+    ||f||_oo
+  $
+  pointwise.
+]
+
+#proof[of Lemma][
+  Let $V = "linear hull of" Lambda inter B_r (0)$ and $k = dim V$. We apply
+  the $ZZ$-basis corollary to $Lambda inter V$ and optain
+  $
+    v_1, ..., v_k in Lambda inter V
+  $
+  such that
+  $
+    ||v_j|| tilde lambda_j (Lambda subset V) = lambda_j (Lambda) < r.
+  $
+  We define
+  $
+    F = sum_(j = 1)^k [0, 1) v_j
+  $
+  a f.d. for $Lambda inter V$ inside $V$. Moreover
+  $
+    "vol"_v (F) tilde lambda_1 (Lambda) dots.c lambda_k (Lambda).
+  $
+  We now consider
+  $
+    sum_(v in Lambda inter B_r (0)) F + v subset B_R^V
+  $
+  for some $R tilde r$. So we have
+  $
+    "vol"_V (F) |Lambda inter B_r (0)| lt.tilde r^k
+  $
+  so by divining by the volume we get that
+  $
+    |Lambda inter B_r (0)| lt.tilde r^k / (lambda_1 (Lambda)
+    dots.c lambda_k (Lambda))
+  $
+  and thus the pointwise bound in the lemma holds.
+]
+
+#lemma[
+  $
+    1 / (lambda_1 dots.c lambda_k): X_d -> (0, oo)
+  $
+  is integrable.
+]
+
+#proof[of @siegel][
+  We define a new measure $mu$ on $RR^d$ by
+  $
+    integral_(RR^d) f dif mu := integral_(X_d) tilde(f) dif m_(X_d).
+  $
+  $mu$ is a locally finite meausre on $RR^d$. Becuase $m_(X_d)$ is
+  $"SL"_d (RR)$ invariant, $mu$ is also. The action of $"SL"_d (RR)$ on
+  $RR^d$ only has two orbits: ${0}$ and $RR^d backslash {0}$.
+
+  Hence $mu = c_0 delta_0 + c m_(RR^d)$
+
+  (by uniqueness of inv. measures on quotients).
+
+  *Goal*: $c_0 = 0, c = m_(X_d)(X_d)$.
+  Define $f_r = 1_(B_r^(RR^d))$ (nvm its not cont. we use a
+  mon. conv argument..) Then
+  $
+    lim_(r -> 0) integral f_r dif mu = c_0
+    = lim_r integral_(X_d) tilde(1_(B_r^(RR^d))) dif m_(X_d) = 0
+  $
+  since the siegel transform goes to zero monotonically as we shrink $r$.
+  We still need to show the second part.
+
+  $
+    c = 1 / (m_(RR^d) (B_r)) integral 1_(B_r) dif mu
+    = integral 1 / (m_(RR^d) (B_r)) tilde(1_(B_r)) dif m_(X_d)
+    -> m_(X_d) (X_d)
+  $
+  as we let $r -> oo$. Indeed the function inside the integral converges
+  pointwise to one, and by our bound in the previous lemma this convergence
+  is dominated so the statment follows.
+]
+
+= Ergodicity and Mixing
+
+== Ergodic Theory
+
+#remark[
+  - Mixing studies the "randomness" of a group action $G acts X$ as you go
+    to infinity in $G$.
+
+  - Ergodicity studies relates the measure of invariant sets.
+
+  In some sense one is a statment about long term behaviour and the
+  other is a local statment. However the two can be connected
+]
+
+- #[
+    Mixing (compare a moved set with one you didnt move and analyize
+    the measure of the intersection)
+    $==>$ ergodicity for all $g in G$ that generate unbounded subgroups
+    (i.e. apply the mixing property to invariant sets)
+  ]
+
+*Goals*:
+- #[
+    understand ergodicity of subgroups $H < G$ acting on $X = G slash Gamma$
+    w.r.t to $m_X$
+  ]
+- #[
+    Ergodicity $==>^"sometimes"$ mixing
+  ]
+
+Let $X$ be a loc. and $sigma$ compact metric space. Let $G$ be a group with
+the same properties. Suppose $G acts X$ continuously preserving a locally
+finite measure. Then
+$
+  (pi_g f)(x) := f(g^(-1) x)
+$
+for $x in X$ and $g in G$ and $f in L^2(X)$, this defines the
+Koopman operator and is a unitary representation of $G$ on $L^2(X)$.
+
+#definition[
+  A unitary representation $pi$ is a homomorphism
+  $
+    pi: G -> "U"(cal(H))
+  $
+  for some Hilbert space $cal(H)$. Moreover we ask
+  that $pi$ is strongly continuous. I.e. we have for all $v in cal(H)$
+  the map
+  $
+    g mapsto pi_g v
+  $
+  is continuous.
+]
+
+#proof[of Properties of $pi$][
+  $
+    norm(pi_g f)_2^2 = integral |f(g^(-1) x)|^2 dif mu(x)
+    = integral |f|^2 dif mu = norm(f)_2^2
+  $
+  This shows that $pi$ is unitary.
+  The group hom. properties are trivial.
+  Consider first $f in C_c (X)$ and a seq $g_n -> g$. Then
+  $
+    pi_(g_n) f -> pi_g f
+  $
+  pointwise in a fixed compact set so by dominated convergence we have
+  convergence in $L^2$. Let $f in L^2 (X)$ then we can approximate
+  using $C_c$ and we are done (notice that for this we need to use that $pi$
+  is unitary to pull this approx across the repr).
+]
+
+== Real Lie Groups and Lie Algebras
+
+For us it will be enough to consider closed linear groups, i.e.
+$
+  G < "SL"_d (RR)
+$
+where $G$ is closed. In this case the exponential map is given
+by the unsual matrix exponential
+$
+  exp: "Mat"_d (RR) -> "GL"_d (RR)
+$
+For more details see @iozzi2025.
+
 
 #bibliography("bib.bib", full: true)
